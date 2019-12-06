@@ -1,0 +1,8 @@
+{
+  "name": "LansaBot",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:homdreen/Lansa-Bot.git",
+  "author": "Felipe Homrich Melchior <fehmel@gmail.com>",
+  "license": "MIT"
+}
