@@ -1,11 +1,25 @@
 import Twitter from 'twitter';
 
 import config from './AuthKeys';
-import { TweetMeme, Mentions, checkReply } from './Utils';
+import { TrendMeme, ReplyMeme, Mentions, getTrends, checkReply } from './Utils';
 
 const client = new Twitter(config);
 
 let lastReply = '';
+
+setInterval(() => {
+  getTrends(client)
+    .then(trends => {
+      const { name } = trends[0].trends[0];
+      console.log('\n###');
+      console.log(`Tweetando no trend: ${name}`);
+      console.log('###');
+      TrendMeme(client, name);
+    })
+    .catch(err => {
+      throw err;
+    });
+}, 1000 * 60 * 60);
 
 setInterval(() => {
   console.log('Checking mentions again...');
@@ -19,7 +33,7 @@ setInterval(() => {
           console.log('Replying');
           console.log('###');
           lastReply = String(mentions[0].id);
-          TweetMeme(client, mentions[0].user.screen_name, mentions[0].id_str);
+          ReplyMeme(client, mentions[0].user.screen_name, mentions[0].id_str);
         }
       }
       console.log('No new mentions...');
@@ -27,4 +41,4 @@ setInterval(() => {
     .catch(err => {
       throw err;
     });
-}, 5000);
+}, 600000);
